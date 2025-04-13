@@ -27,7 +27,7 @@ public class Main {
             System.out.println("1. Register User\n2. Login User\n3. Exit\n");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
-            sc.nextLine(); // Consume the newline character
+            sc.nextLine(); 
             if(choice == 1){
                 System.out.print("Enter your name: ");
                 name = sc.nextLine();
@@ -39,6 +39,12 @@ public class Main {
                 User user = lib.loginUser(ID);
                 if(user != null){
                     while(true){
+                        System.out.println("=====================================");
+                        System.out.println("Welcome " + user.name + "\n");
+                        if(user.isFirstLogin){
+                            System.out.println("Note: Since this is your first login, you need to borrow a book first");
+                            user.isFirstLogin = false;
+                        }
                         System.out.println("\n1. View Available Books\n2. Borrow Book\n3. Return Book\n4. View Borrowed Books\n5. Logout");
                         System.out.print("\nEnter your choice: ");
                         int choice1 = sc.nextInt();
@@ -62,6 +68,14 @@ public class Main {
                             }
                         }
                         else if(choice1 == 3){
+                            if(user.isFirstLogin){
+                                System.out.println("You need to borrow a book first");
+                                continue;
+                            }
+                            if(user.borrowedbooks.isEmpty()){
+                                System.out.println("No books available to return");
+                                continue;
+                            }
                             System.out.print("Enter Book ID: ");
                             String bookID = sc.next();
                             boolean found = false;
@@ -77,7 +91,14 @@ public class Main {
                         }
                         else if(choice1 == 4){
                             System.out.println("=====================================");
-                            user.viewbooks();
+                            System.out.println("Borrowed Books:");
+                            System.out.println("=====================================");
+                            if(user.borrowedbooks.isEmpty()){
+                                System.out.println("No books available");
+                            }
+                            else{
+                                user.viewbooks();
+                            }
                             System.out.println("=====================================");
                         }
                         else if(choice1 == 5){

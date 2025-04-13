@@ -4,11 +4,12 @@ public class User {
     String name;
     int ID;
     ArrayList<Book > borrowedbooks = new ArrayList<>();
+    boolean isFirstLogin;
 
     User(String name, int ID){
         this.name = name;
         this.ID = ID;
-
+        this.isFirstLogin = true;
     }
 
     void borrowedbook(Book book,Library lib){
